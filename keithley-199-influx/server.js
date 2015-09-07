@@ -1,5 +1,4 @@
-var Visa = require ("../nisa.js").Visa;
-
+var Visa = require ("node-nisa").Visa;
 
 var influx = require('influx')
 
