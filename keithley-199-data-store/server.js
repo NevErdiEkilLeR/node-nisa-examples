@@ -62,7 +62,7 @@ async.series([
   function (callback) { kei199.open(callback); },
   function (callback) { kei199.deviceClear(callback); },
   function (callback) { kei199.write("O0G1F0R0X", callback) }, // 2-pole; scientific notation; DCV 3V;  
-  function (callback) { kei199.write("N0Q250T2X", callback) }, // one channel per store interval; 250ms interval; continious GET
+  function (callback) { kei199.write("N0Q300T2X", callback) }, // one channel per store interval; 250ms interval; continious GET
   function (callback) { kei199.write("I" + numberOfMeasurements + "X", callback) },// 4 readigns;
   function (callback) { kei199.write("M3X", callback) },  // SRQ when full and on overrange
   function (callback) { setTimeout(callback, 500) },
