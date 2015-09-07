@@ -1,4 +1,4 @@
-var Visa = require ("../nisa.js").Visa;
+var Visa = require ("node-nisa").Visa;
 
 var DeviationStream = require('standard-deviation-stream');
 
