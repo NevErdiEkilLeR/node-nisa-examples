@@ -8,3 +8,5 @@ If the input of the multimeter is overloaded (>3V applied to input), the multime
 # Installation
 Check the GPIB address of your Keihtley 199 and change the appropriate number in source (line 6).
 
+Run with ``` npm run start ```
+
