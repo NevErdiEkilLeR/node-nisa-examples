@@ -1,7 +1,5 @@
 var async = require('async');
-var Visa = require("../nisa.js").Visa;
-
-var DeviationStream = require('standard-deviation-stream');
+var Visa = require("node-nisa").Visa;
 
 // standard Keithley 199 address is 26 
 var kei199 = new Visa("GPIB0::26::INSTR");
@@ -62,23 +60,13 @@ kei199.on('srq', function (stb) {
 
 async.series([
   function (callback) { kei199.open(callback); },
-  //function (callback) { setTimeout(callback, 500) },
   function (callback) { kei199.deviceClear(callback); },
-  function (callback) { kei199.write("M1X", callback) }, // 2-pole; scientific notation; DCV 3V;  
   function (callback) { kei199.write("O0G1F0R0X", callback) }, // 2-pole; scientific notation; DCV 3V;  
   function (callback) { kei199.write("N0Q250T2X", callback) }, // one channel per store interval; 250ms interval; continious GET
   function (callback) { kei199.write("I" + numberOfMeasurements + "X", callback) },// 4 readigns;
   function (callback) { kei199.write("M3X", callback) },  // SRQ when full and on overrange
   function (callback) { setTimeout(callback, 500) },
-  function (callback) { kei199.trigger(callback) } // ATN low; address; GET command byte // probably everything is done by viAssertTrigger
-  /*function(callback) {
-        setInterval(function() {
-                        kei199.query("G1F0R2X", function (err, res) {
-                        var value = Number(res);
-                        process.stdout.write(" " + value + ";\r");
-                    });
-                }, 250);
-  }*/
+  function (callback) { kei199.trigger(callback) } 
 ], function (err, res) {
   if (err) {
     console.log('ERROR');
@@ -88,24 +76,3 @@ async.series([
     console.log(res);
   }
 });
-
-/*
-async.series ([
-  function(callback) { kei199.open(callback); }, 
-  function(callback) { kei199.write("O0G1F0R2X", callback) }, // 2-pole; scientific notation; DCV 3V;  
-  function(callback) { setTimeout(callback, 500) }, 
-  function(callback) { kei199.write("N18Q1000T2X", callback) }, // one channel per store interval; 1s interval; continious GET
-  function(callback) { setTimeout(callback, 500) }, 
-  function(callback) { kei199.write("I8M3X", callback) }, // 80 readigns; SRQ when full and on overrange
-  function(callback) { setTimeout(callback, 500) },
-  function(callback) { kei199.trigger(callback) } // ATN low; address; GET command byte // probably everything is done by viAssertTrigger
-], function(err, res) {
-   if (err) { 
-     console.log('ERROR');
-     console.log(err);
-   } else {
-     console.log('DONE');
-     console.log(res);
-   }   
-}); */
-
